@@ -1,0 +1,2407 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manual Profissional - Mercado de Opções</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        h1 {
+            color: #667eea;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            font-size: 1.2em;
+            margin-bottom: 20px;
+        }
+
+        .market-info {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            border-left: 4px solid #667eea;
+        }
+
+        .market-info strong {
+            color: #667eea;
+        }
+
+        nav {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        nav h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+
+        nav ul {
+            list-style: none;
+        }
+
+        nav ul li {
+            margin: 10px 0;
+        }
+
+        nav ul li a {
+            color: #333;
+            text-decoration: none;
+            padding: 8px 15px;
+            display: block;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+
+        nav ul li a:hover {
+            background: #667eea;
+            color: white;
+            transform: translateX(10px);
+        }
+
+        section {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        h3 {
+            color: #764ba2;
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+
+        .exemplo {
+            background: #f0f4ff;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 5px solid #667eea;
+        }
+
+        .exemplo-titulo {
+            font-weight: bold;
+            color: #667eea;
+            font-size: 1.1em;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .exemplo-titulo::before {
+            content: "💡";
+            margin-right: 10px;
+            font-size: 1.5em;
+        }
+
+        .calculo {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            font-family: 'Courier New', monospace;
+        }
+
+        .destaque {
+            background: #fff3cd;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid #ffc107;
+        }
+
+        .alerta {
+            background: #f8d7da;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid #dc3545;
+        }
+
+        .sucesso {
+            background: #d4edda;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid #28a745;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        th {
+            background: #667eea;
+            color: white;
+            padding: 15px;
+            text-align: left;
+        }
+
+        td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        tr:hover {
+            background: #f8f9fa;
+        }
+
+        .comparacao {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+
+        .card-header {
+            font-weight: bold;
+            color: #667eea;
+            font-size: 1.2em;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #eee;
+        }
+
+        .valor-positivo {
+            color: #28a745;
+            font-weight: bold;
+        }
+
+        .valor-negativo {
+            color: #dc3545;
+            font-weight: bold;
+        }
+
+        .grafico-simples {
+            background: linear-gradient(to right, #28a745 var(--porcentagem), #eee var(--porcentagem));
+            height: 30px;
+            border-radius: 15px;
+            margin: 10px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .grafico-texto {
+            position: absolute;
+            top: 50%;
+            left: 10px;
+            transform: translateY(-50%);
+            color: white;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            color: #e83e8c;
+        }
+
+        .formula {
+            background: #1e1e1e;
+            color: #fafafa;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+        }
+
+        footer {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            color: #666;
+            margin-top: 30px;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8em;
+            }
+            
+            .comparacao {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #667eea;
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            transition: all 0.3s;
+        }
+
+        .back-to-top:hover {
+            transform: translateY(-5px);
+            background: #764ba2;
+        }
+
+        .glossario-item {
+            margin: 15px 0;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .glossario-termo {
+            font-weight: bold;
+            color: #667eea;
+            font-size: 1.1em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📊 Manual Profissional do Mercado de Opções</h1>
+            <p class="subtitle">Guia Completo com Exemplos Práticos - Capital Base: R$ 50.000</p>
+            
+            <div class="market-info">
+                <strong>Cenário Econômico Atual:</strong><br>
+                Taxa SELIC: <span class="valor-positivo">14,90% ao ano</span> | 
+                CDI: <span class="valor-positivo">≈ 14,65% ao ano</span> (≈ 1,15% ao mês)<br>
+                <em>Atualizado em: Novembro de 2025</em>
+            </div>
+        </header>
+
+        <nav id="indice">
+            <h3>📑 Índice</h3>
+            <ul>
+                <li><a href="#modulo1">Módulo 1: Fundamentos do Mercado de Opções</a></li>
+                <li><a href="#modulo2">Módulo 2: Tipos de Operações</a></li>
+                <li><a href="#modulo3">Módulo 3: Estratégias com R$ 50.000</a></li>
+                <li><a href="#modulo4">Módulo 4: Comparação com CDI</a></li>
+                <li><a href="#modulo5">Módulo 5: Gestão de Risco</a></li>
+                <li><a href="#modulo6">Módulo 6: Estudos de Caso</a></li>
+                <li><a href="#modulo7">Módulo 7: Estratégias TradeMap</a></li>
+                <li><a href="#modulo8">Módulo 8: As 10 Estratégias Profissionais</a></li>
+                <li><a href="#glossario">Glossário</a></li>
+            </ul>
+        </nav>
+
+        <!-- MÓDULO 1 -->
+        <section id="modulo1">
+            <h2>Módulo 1: Fundamentos do Mercado de Opções</h2>
+            
+            <h3>1.1 O que são Opções?</h3>
+            <p>Opções são contratos que dão ao comprador o <strong>direito</strong> (mas não a obrigação) de comprar ou vender um ativo a um preço predeterminado até uma data específica. O vendedor da opção tem a <strong>obrigação</strong> de cumprir o contrato se o comprador exercer seu direito.</p>
+
+            <div class="destaque">
+                <strong>💰 Seu Capital: R$ 50.000</strong><br>
+                Com este capital, você pode operar de forma profissional, diversificando entre diferentes estratégias e ativos.
+            </div>
+
+            <h3>1.2 Tipos Básicos de Opções</h3>
+            
+            <div class="comparacao">
+                <div class="card">
+                    <div class="card-header">📈 CALL (Opção de Compra)</div>
+                    <p><strong>Direito de COMPRAR</strong> o ativo pelo strike até o vencimento</p>
+                    <ul style="margin-top: 10px;">
+                        <li>Titular: espera valorização</li>
+                        <li>Lançador: espera estabilidade/queda</li>
+                        <li>Ganho titular: ilimitado</li>
+                        <li>Perda titular: limitada ao prêmio</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">📉 PUT (Opção de Venda)</div>
+                    <p><strong>Direito de VENDER</strong> o ativo pelo strike até o vencimento</p>
+                    <ul style="margin-top: 10px;">
+                        <li>Titular: espera desvalorização</li>
+                        <li>Lançador: espera estabilidade/alta</li>
+                        <li>Ganho titular: limitado ao strike</li>
+                        <li>Perda titular: limitada ao prêmio</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3>1.3 Componentes do Preço de uma Opção</h3>
+            
+            <table>
+                <tr>
+                    <th>Componente</th>
+                    <th>Descrição</th>
+                    <th>Impacto</th>
+                </tr>
+                <tr>
+                    <td><strong>Valor Intrínseco</strong></td>
+                    <td>Diferença entre preço do ativo e strike</td>
+                    <td>Direto no prêmio</td>
+                </tr>
+                <tr>
+                    <td><strong>Valor Extrínseco</strong></td>
+                    <td>Valor de tempo + volatilidade</td>
+                    <td>Decai com o tempo</td>
+                </tr>
+                <tr>
+                    <td><strong>Strike</strong></td>
+                    <td>Preço de exercício acordado</td>
+                    <td>Define ITM/ATM/OTM</td>
+                </tr>
+                <tr>
+                    <td><strong>Vencimento</strong></td>
+                    <td>Data final do contrato</td>
+                    <td>Mais tempo = maior prêmio</td>
+                </tr>
+                <tr>
+                    <td><strong>Volatilidade</strong></td>
+                    <td>Variação esperada do ativo</td>
+                    <td>Maior vol = maior prêmio</td>
+                </tr>
+            </table>
+
+            <h3>1.4 As Gregas - Medidas de Sensibilidade</h3>
+            
+            <div class="exemplo">
+                <div class="exemplo-titulo">Entendendo as Gregas</div>
+                
+                <p><strong>Delta (Δ):</strong> Variação do prêmio para cada R$ 1 de variação no ativo</p>
+                <div class="calculo">
+Call ATM: Delta ≈ 0,50 → Se ativo sobe R$ 1, call valoriza R$ 0,50<br>
+Put ATM: Delta ≈ -0,50 → Se ativo sobe R$ 1, put desvaloriza R$ 0,50
+                </div>
+
+                <p><strong>Gamma (Γ):</strong> Taxa de variação do Delta</p>
+                <div class="calculo">
+Gamma alto → Delta muda rapidamente (maior risco/retorno)<br>
+Opções ATM têm maior Gamma
+                </div>
+
+                <p><strong>Theta (Θ):</strong> Perda de valor por dia (decay)</p>
+                <div class="calculo">
+Theta = -0,10 → Opção perde R$ 0,10 por dia<br>
+Acelera nos últimos 30 dias antes do vencimento
+                </div>
+
+                <p><strong>Vega (ν):</strong> Sensibilidade à volatilidade</p>
+                <div class="calculo">
+Vega = 0,15 → Para cada 1% de aumento na volatilidade, prêmio sobe R$ 0,15
+                </div>
+            </div>
+        </section>
+
+        <!-- MÓDULO 2 -->
+        <section id="modulo2">
+            <h2>Módulo 2: Tipos de Operações</h2>
+
+            <h3>2.1 Operação Comprada (Long)</h3>
+
+            <div class="exemplo">
+                <div class="exemplo-titulo">Exemplo 1: Compra de Call (Long Call)</div>
+                
+                <p><strong>Cenário:</strong> PETR4 cotada a R$ 35,00</p>
+                <p><strong>Operação:</strong> Comprar PETRK36 (Call, Strike R$ 36) por R$ 1,50</p>
+                <p><strong>Capital alocado:</strong> R$ 50.000 ÷ 1,50 = 333 opções (33.300 ações equivalentes)</p>
+                
+                <div class="calculo">
+<strong>Investimento:</strong><br>
+333 opções × R$ 1,50 = R$ 499,50 (~1% do capital)<br>
+<br>
+<strong>Cenário A - PETR4 sobe para R$ 40:</strong><br>
+Valor intrínseco: R$ 40 - R$ 36 = R$ 4,00<br>
+Lucro por opção: R$ 4,00 - R$ 1,50 = R$ 2,50<br>
+Lucro total: 333 × R$ 2,50 = <span class="valor-positivo">R$ 832,50</span><br>
+Rentabilidade: +166,7%<br>
+<br>
+<strong>Cenário B - PETR4 cai para R$ 34:</strong><br>
+Opções expiram sem valor<br>
+Perda: <span class="valor-negativo">R$ 499,50</span> (100%)
+                </div>
+
+                <div class="comparacao">
+                    <div class="card">
+                        <div class="card-header">✅ Vantagens</div>
+                        <ul>
+                            <li>Alavancagem significativa</li>
+                            <li>Risco limitado ao prêmio</li>
+                            <li>Ganho potencial ilimitado</li>
+                            <li>Baixo capital inicial</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">⚠️ Desvantagens</div>
+                        <ul>
+                            <li>Decay temporal (Theta)</li>
+                            <li>Necessita movimento favorável</li>
+                            <li>Pode perder 100%</li>
+                            <li>Volatilidade implícita cara</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <h3>2.2 Operação Vendida (Short)</h3>
+
+            <div class="exemplo">
+                <div class="exemplo-titulo">Exemplo 2: Venda de Put Coberta</div>
+                
+                <p><strong>Cenário:</strong> VALE3 cotada a R$ 70,00</p>
+                <p><strong>Operação:</strong> Vender VALEU68 (Put, Strike R$ 68) por R$ 2,00</p>
+                <p><strong>Garantia necessária:</strong> ≈ 20% do total (R$ 13,60 por opção)</p>
+                
+                <div class="calculo">
+<strong>Operação:</strong><br>
+Capital disponível: R$ 50.000<br>
+Opções vendidas: 100 contratos (usando R$ 13.600 de garantia)<br>
+Prêmio recebido: 100 × R$ 2,00 × 100 = <span class="valor-positivo">R$ 20.000</span><br>
+<br>
+<strong>Cenário A - VALE3 ≥ R$ 68 no vencimento:</strong><br>
+Puts expiram sem valor<br>
+Lucro: <span class="valor-positivo">R$ 20.000</span><br>
+Rentabilidade sobre garantia: +147% (em 30-40 dias típicos)<br>
+Rentabilidade anualizada: >400%<br>
+<br>
+<strong>Cenário B - VALE3 cai para R$ 64:</strong><br>
+Exercício: compra forçada a R$ 68<br>
+Prejuízo na ação: R$ 4,00 × 10.000 = R$ 40.000<br>
+Menos prêmio recebido: -R$ 20.000<br>
+Prejuízo líquido: <span class="valor-negativo">R$ 20.000</span>
+                </div>
+
+                <div class="alerta">
+                    <strong>⚠️ ATENÇÃO:</strong> Venda de opções a descoberto exige gestão rigorosa de risco. Sempre use stop loss e dimensionamento adequado de posição!
+                </div>
+            </div>
+        </section>
+
+        <!-- MÓDULO 3 -->
+        <section id="modulo3">
+            <h2>Módulo 3: Estratégias Avançadas com R$ 50.000</h2>
+
+            <h3>3.1 Bull Call Spread (Trava de Alta)</h3>
+
+            <div class="exemplo">
+                <div class="exemplo-titulo">Exemplo 3: Trava de Alta em BBDC4</div>
+                
+                <p><strong>Cenário:</strong> BBDC4 a R$ 18,00, expectativa de alta moderada</p>
+                
+                <div class="calculo">
+<strong>Montagem da Estratégia:</strong><br>
+COMPRA: 200 BBDCK18 (Strike R$ 18) por R$ 1,00 = R$ 20.000<br>
+VENDA: 200 BBDCK20 (Strike R$ 20) por R$ 0,40 = R$ 8.000<br>
+<br>
+<strong>Débito líquido:</strong> R$ 20.000 - R$ 8.000 = <span class="valor-negativo">R$ 12.000</span><br>
+Capital restante livre: R$ 38.000<br>
+<br>
+<strong>Análise de Cenários:</strong><br>
+<br>
+<strong>BBDC4 < R$ 18:</strong> Perda máxima = R$ 12.000<br>
+<strong>BBDC4 = R$ 19:</strong> Resultado = R$ 8.000 (lucro)<br>
+<strong>BBDC4 ≥ R$ 20:</strong> Ganho máximo = R$ 28.000<br>
+<br>
+Ganho máximo: (R$ 20 - R$ 18) × 20.000 - R$ 12.000 = <span class="valor-positivo">R$ 28.000</span><br>
+Rentabilidade máxima: +133%<br>
+Break-even: R$ 18,60
+                </div>
+
+                <div class="sucesso">
+                    <strong>✅ VANTAGEM:</strong> Custo reduzido pela venda da call superior, mantendo potencial de ganho em alta moderada.
+                </div>
+            </div>
+
+            <h3>3.2 Iron Condor (Condor de Ferro)</h3>
+
+            <div class="exemplo">
+                <div class="exemplo-titulo">Exemplo 4: Iron Condor em ITUB4</div>
+                
+                <p><strong>Cenário:</strong> ITUB4 a R$ 28,00, expectativa de lateralização</p>
+                <p><strong>Volatilidade implícita:</strong> Alta (favorável para vendedor)</p>
+                
+                <div class="calculo">
+<strong>Montagem (4 pernas):</strong><br>
+<br>
+VENDE: 100 ITUBV26 (Put R$ 26) por R$ 0,80 = <span class="valor-positivo">+R$ 8.000</span><br>
+COMPRA: 100 ITUBV24 (Put R$ 24) por R$ 0,30 = <span class="valor-negativo">-R$ 3.000</span><br>
+VENDE: 100 ITUBK30 (Call R$ 30) por R$ 0,90 = <span class="valor-positivo">+R$ 9.000</span><br>
+COMPRA: 100 ITUBK32 (Call R$ 32) por R$ 0,35 = <span class="valor-negativo">-R$ 3.500</span><br>
+<br>
+<strong>Crédito líquido recebido:</strong> <span class="valor-positivo">R$ 10.500</span><br>
+Garantia necessária: ≈ R$ 20.000<br>
+Capital livre: R$ 30.000<br>
+<br>
+<strong>Zona de Lucro:</strong> R$ 26,00 < ITUB4 < R$ 30,00<br>
+<br>
+<strong>Resultado máximo:</strong> <span class="valor-positivo">R$ 10.500</span> (52,5% sobre garantia)<br>
+<strong>Perda máxima:</strong> <span class="valor-negativo">R$ 9.500</span> (se fechar fora da zona)<br>
+<strong>Relação risco/retorno:</strong> 1,1:1
+                </div>
+
+                <table>
+                    <tr>
+                        <th>Preço ITUB4</th>
+                        <th>Resultado</th>
+                        <th>Rentabilidade</th>
+                    </tr>
+                    <tr>
+                        <td>R$ 24,00</td>
+                        <td class="valor-negativo">-R$ 9.500</td>
+                        <td class="valor-negativo">-47,5%</td>
+                    </tr>
+                    <tr>
+                        <td>R$ 26,00</td>
+                        <td class="valor-positivo">+R$ 10.500</td>
+                        <td class="valor-positivo">+52,5%</td>
+                    </tr>
+                    <tr>
+                        <td>R$ 28,00</td>
+                        <td class="valor-positivo">+R$ 10.500</td>
+                        <td class="valor-positivo">+52,5%</td>
+                    </tr>
+                    <tr>
+                        <td>R$ 30,00</td>
+                        <td class="valor-positivo">+R$ 10.500</td>
+                        <td class="valor-positivo">+52,5%</td>
+                    </tr>
+                    <tr>
+                        <td>R$ 32,00</td>
+                        <td class="valor-negativo">-R$ 9.500</td>
+                        <td class="valor-negativo">-47,5%</td>
+                    </tr>
+                </table>
+            </div>
+
+            <h3>3.3 Covered Call (Venda Coberta)</h3>
+
+            <div class="exemplo">
+                <div class="exemplo-titulo">Exemplo 5: Venda Coberta em Carteira de Ações</div>
+                
+                <p><strong>Situação:</strong> Você possui 1.000 PETR4 compradas a R$ 32 (R$ 32.000 investidos)</p>
+                <p><strong>Ação atual:</strong> R$ 35,00</p>
+                <p><strong>Estratégia:</strong> Vender calls para gerar renda adicional</p>
+                
+                <div class="calculo">
+<strong>Carteira atual:</strong><br>
+1.000 PETR4 × R$ 35 = R$ 35.000<br>
+Lucro não realizado: R$ 3.000 (+9,4%)<br>
+Capital livre: R$ 18.000<br>
+<br>
+<strong>Operação:</strong><br>
+VENDE: 10 PETRK37 (1.000 ações) por R$ 1,20<br>
+Prêmio recebido: 10 × 100 × R$ 1,20 = <span class="valor-positivo">R$ 1.200</span><br>
+<br>
+<strong>Cenário A - PETR4 < R$ 37:</strong><br>
+Mantém ações + prêmio<br>
+Renda extra: <span class="valor-positivo">R$ 1.200</span> (3,4% em ~30 dias)<br>
+Equivalente anual: ~40%<br>
+<br>
+<strong>Cenário B - PETR4 > R$ 37:</strong><br>
+Venda forçada a R$ 37<br>
+Lucro na ação: (R$ 37 - R$ 32) × 1.000 = R$ 5.000<br>
+Prêmio recebido: R$ 1.200<br>
+Lucro total: <span class="valor-positivo">R$ 6.200</span> (+19,4%)<br>
+Custo de oportunidade: se ação subir muito mais
+                </div>
+
+                <div class="destaque">
+                    <strong>💡 DICA:</strong> Covered call é ideal para gerar renda em mercados laterais ou levemente altistas, protegendo parte do downside com o prêmio recebido.
+                </div>
+            </div>
+        </section>
+
+        <!-- MÓDULO 4 -->
+        <section id="modulo4">
+            <h2>Módulo 4: Comparação Detalhada com CDI</h2>
+
+            <h3>4.1 Investimento em CDI (Cenário Base)</h3>
+
+            <div class="exemplo">
+                <div class="exemplo-titulo">Projeção CDI com R$ 50.000</div>
+                
+                <div class="calculo">
+<strong>Parâmetros:</strong><br>
+Capital inicial: R$ 50.000<br>
+Taxa CDI anual: 14,65%<br>
+Taxa mensal: ≈ 1,15%<br>
+IR sobre rendimentos: 15% (após 2 anos)<br>
+<br>
+<strong>Evolução Mensal (1º ano):</strong><br>
+Mês 1: R$ 50.000 × 1,0115 = R$ 50.575<br>
+Mês 2: R$ 50.575 × 1,0115 = R$ 51.157<br>
+Mês 3: R$ 51.157 × 1,0115 = R$ 51.745<br>
+...<br>
+Mês 12: R$ 57.325 (bruto)<br>
+IR (22,5%): R$ 1.648<br>
+<strong>Líquido após 1 ano: R$ 55.677</strong> (+11,4%)<br>
+<br>
+<strong>Evolução Anual:</strong><br>
+Ano 1: <span class="valor-positivo">R$ 55.677</span> (+11,4% líquido)<br>
+Ano 2: <span class="valor-positivo">R$ 62.022</span> (+24,0% acumulado)<br>
+Ano 3: <span class="valor-positivo">R$ 69.097</span> (+38,2% acumulado)<br>
+Ano 5: <span class="valor-positivo">R$ 86.425</span> (+72,9% acumulado)
+                </div>
+
+                <div style="background: white; padding: 20px; border-radius: 10px; margin: 20px 0;">
+                    <h4 style="margin-bottom: 15px;">Evolução do Capital no CDI</h4>
+                    <div class="grafico-simples" style="--porcentagem: 11.4%;">
+                        <div class="grafico-texto">Ano 1: 11,4%</div>
+                    </div>
+                    <div class="grafico-simples" style="--porcentagem: 24%;">
+                        <div class="grafico-texto">Ano 2: 24,0%</div>
+                    </div>
+                    <div class="grafico-simples" style="--porcentagem: 38.2%;">
+                        <div class="grafico-texto">Ano 3: 38,2%</div>
+                    </div>
+                    <div class="grafico-simples" style="--porcentagem: 72.9%;">
+                        <div class="grafico-texto">Ano 5: 72,9%</div>
+                    </div>
+                </div>
+            </div>
+
+            <h3>4.2 Estratégia Conservadora com Opções</h3>
+
+            <div class="exemplo">
+                <div class="exemplo-titulo">Portfólio Híbrido: 70% CDI + 30% Opções</div>
+                
+                <div class="calculo">
+<strong>Alocação:</strong><br>
+R$ 35.000 em CDI (70%)<br>
+R$ 15.000 em operações com opções (30%)<br>
+<br>
+<strong>Estratégia Opções (mensal):</strong><br>
+- 50% em vendas cobertas (R$ 7.500)<br>
+- 30% em iron condors (R$ 4.500)<br>
+- 20% em compras direcionais (R$ 3.000)<br>
+<br>
+<strong>Meta conservadora: 5% ao mês nas opções</strong><br>
+<br>
+<strong>Projeção Mensal:</strong><br>
+Rendimento CDI: R$ 35.000 × 1,15% = R$ 402,50<br>
+Rendimento Opções: R$ 15.000 × 5% = R$ 750,00<br>
+Total mês: <span class="valor-positivo">R$ 1.152,50</span> (2,3% no capital total)<br>
+<br>
+<strong>Projeção 12 meses:</strong><br>
+CDI: R$ 35.000 → R$ 38.997 (+11,4%)<br>
+Opções: R$ 15.000 → R$ 26.975 (+79,8% bruto)<br>
+Total: <span class="valor-positivo">R$ 65.972</span><br>
+Rentabilidade geral: <span class="valor-positivo">+31,9%</span><br>
+<br>
+<strong>VS CDI puro: +31,9% vs +11,4% = OUTPERFORMANCE DE +20,5pp</strong>
+                </div>
+
+                <div class="comparacao">
+                    <div class="card">
+                        <div class="card-header">CDI Puro (100%)</div>
+                        <p><strong>Capital final 12 meses:</strong></p>
+                        <p class="valor-positivo" style="font-size: 1.5em;">R$ 55.677</p>
+                        <p><strong>Rentabilidade:</strong> +11,4%</p>
+                        <p><strong>Volatilidade:</strong> Praticamente zero</p>
+                        <p><strong>Risco:</strong> Muito baixo</p>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">Portfólio Híbrido</div>
+                        <p><strong>Capital final 12 meses:</strong></p>
+                        <p class="valor-positivo" style="font-size: 1.5em;">R$ 65.972</p>
+                        <p><strong>Rentabilidade:</strong> +31,9%</p>
+                        <p><strong>Volatilidade:</strong> Baixa/Moderada</p>
+                        <p><strong>Risco:</strong> Controlado</p>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">Vantagem Opções</div>
+                        <p><strong>Ganho adicional:</strong></p>
+                        <p class="valor-positivo" style="font-size: 1.5em;">R$ 10.295</p>
+                        <p><strong>Percentual extra:</strong> +20,5pp</p>
+                        <p><strong>Equivale a:</strong> 2,8x o CDI</p>
+                        <p><strong>Esforço:</strong> Gestão ativa</p>
+                    </div>
+                </div>
+            </div>
+
+            <h3>4.3 Estratégia Moderada/Agressiva</h3>
+
+            <div class="exemplo">
+                <div class="exemplo-titulo">Portfólio Agressivo: 40% CDI + 60% Opções</div>
+                
+                <div class="calculo">
+<strong>Alocação:</strong><br>
+R$ 20.000 em CDI (40%) - reserva de segurança<br>
+R$ 30.000 em operações com opções (60%)<br>
+<br>
+<strong>Estratégia Opções:</strong><br>
+- 40% vendas (R$ 12.000) - meta 6%/mês<br>
+- 35% spreads (R$ 10.500) - meta 8%/mês<br>
+- 25% compras (R$ 7.500) - meta 15%/mês*<br>
+*Com maior volatilidade<br>
+<br>
+<strong>Meta moderada: 8% ao mês nas opções</strong><br>
+<br>
+<strong>Cenário Base (80% de aproveitamento):</strong><br>
+CDI mensal: R$ 20.000 × 1,15% = R$ 230<br>
+Opções mensal: R$ 30.000 × 6,4% = R$ 1.920<br>
+Total: <span class="valor-positivo">R$ 2.150/mês</span> (4,3% do capital)<br>
+<br>
+<strong>Projeção 12 meses (conservadora):</strong><br>
+CDI: R$ 20.000 → R$ 22.284<br>
+Opções: R$ 30.000 → R$ 60.192<br>
+Total: <span class="valor-positivo">R$ 82.476</span><br>
+Rentabilidade: <span class="valor-positivo">+64,9%</span><br>
+<br>
+<strong>VS CDI: +64,9% vs +11,4% = OUTPERFORMANCE DE +53,5pp</strong>
+                </div>
+
+                <div class="alerta">
+                    <strong>⚠️ IMPORTANTE:</strong> Esta estratégia exige:
+                    <ul style="margin-top: 10px;">
+                        <li>Conhecimento técnico avançado</li>
+                        <li>Dedicação diária (mínimo 2h/dia)</li>
+                        <li>Gestão rigorosa de risco</li>
+                        <li>Controle emocional</li>
+                        <li>Capacidade de absorver perdas mensais ocasionais</li>
+                    </ul>
+                </div>
+
+                <table>
+                    <tr>
+                        <th>Aspecto</th>
+                        <th>CDI 100%</th>
+                        <th>Híbrido 70/30</th>
+                        <th>Agressivo 40/60</th>
+                    </tr>
+                    <tr>
+                        <td><strong>Capital inicial</strong></td>
+                        <td>R$ 50.000</td>
+                        <td>R$ 50.000</td>
+                        <td>R$ 50.000</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Retorno 12m</strong></td>
+                        <td class="valor-positivo">+11,4%</td>
+                        <td class="valor-positivo">+31,9%</td>
+                        <td class="valor-positivo">+64,9%</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Capital final</strong></td>
+                        <td>R$ 55.677</td>
+                        <td>R$ 65.972</td>
+                        <td>R$ 82.476</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Ganho absoluto</strong></td>
+                        <td>R$ 5.677</td>
+                        <td>R$ 15.972</td>
+                        <td>R$ 32.476</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Risco</strong></td>
+                        <td>Muito Baixo</td>
+                        <td>Baixo/Médio</td>
+                        <td>Médio/Alto</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Tempo dedicado</strong></td>
+                        <td>0h</td>
+                        <td>1-2h/dia</td>
+                        <td>2-4h/dia</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Drawdown máximo**</strong></td>
+                        <td>~0%</td>
+                        <td>~8%</td>
+                        <td>~20%</td>
+                    </tr>
+                </table>
+                <p style="font-size: 0.9em; color: #666; margin-top: 5px;">**Drawdown = maior perda acumulada no período</p>
+            </div>
+        </section>
+
+        <!-- MÓDULO 5 -->
+        <section id="modulo5">
+            <h2>Módulo 5: Gestão de Risco com R$ 50.000</h2>
+
+            <h3>5.1 Regras Fundamentais</h3>
+
+            <div class="destaque">
+                <h4>🛡️ Princípios de Proteção do Capital</h4>
+                <ol style="margin-top: 10px; margin-left: 20px;">
+                    <li><strong>Nunca arrisque mais de 2% do capital em uma única operação</strong><br>
+                    Com R$ 50.000 → Máximo R$ 1.000 de risco por trade</li>
+                    
+                    <li><strong>Exposição total máxima: 30% do capital</strong><br>
+                    No máximo R$ 15.000 em risco simultâneo</li>
+                    
+                    <li><strong>Mantenha sempre 40%+ em liquidez (CDI/Tesouro)</strong><br>
+                    Mínimo R$ 20.000 em reserva segura</li>
+                    
+                    <li><strong>Use stop loss em TODAS as operações direcionais</strong><br>
+                    Sem exceções, mesmo em "certezas"</li>
+                    
+                    <li><strong>Diversifique estratégias e vencimentos</strong><br>
+                    Não concentre tudo em uma tese/ativo</li>
+                </ol>
+            </div>
+
+            <h3>5.2 Calculadora de Position Sizing</h3>
+
+            <div class="exemplo">
+                <div class="exemplo-titulo">Exemplo 6: Dimensionamento Correto de Posição</div>
+                
+                <p><strong>Operação desejada:</strong> Compra de calls BBAS3K24</p>
+                
+                <div class="calculo">
+<strong>Dados:</strong><br>
+Capital total: R$ 50.000<br>
+Risco máximo por operação: 2%<br>
+Risco permitido: R$ 50.000 × 2% = R$ 1.000<br>
+<br>
+Preço da call: R$ 1,50<br>
+Stop loss planejado: perda de 50% (R$ 0,75 de queda)<br>
+<br>
+<strong>Cálculo de contratos:</strong><br>
+Risco por contrato: R$ 0,75 × 100 ações = R$ 75<br>
+Contratos permitidos: R$ 1.000 ÷ R$ 75 = 13 contratos<br>
+<br>
+<strong>Investimento total:</strong><br>
+13 contratos × R$ 1,50 × 100 = <span class="valor-negativo">R$ 1.950</span><br>
+<br>
+<strong>Se stop for acionado:</strong><br>
+Perda: 13 × R$ 75 = <span class="valor-negativo">R$ 975</span> (1,95% do capital) ✅<br>
+<br>
+<strong>Se acertar (+100%):</strong><br>
+Ganho: 13 × R$ 150 = <span class="valor-positivo">R$ 1.950</span> (3,9% do capital)
+                </div>
+
+                <div class="sucesso">
+                    <strong>✅ POSITION SIZING CORRETO:</strong> Mesmo com movimento totalmente contrário, você perde menos de 2% do capital total, preservando capacidade operacional.
+                </div>
+            </div>
+
+            <h3>5.3 Gestão de Drawdown</h3>
+
+            <div class="exemplo">
+                <div class="exemplo-titulo">Exemplo 7: Recuperação de Perdas</div>
+                
+                <p><strong>Entendendo a matemática das perdas:</strong></p>
+                
+                <table>
+                    <tr>
+                        <th>Perda %</th>
+                        <th>Capital restante</th>
+                        <th>Ganho necessário para recuperar</th>
+                        <th>Tempo estimado (5%/mês)</th>
+                    </tr>
+                    <tr>
+                        <td>-5%</td>
+                        <td>R$ 47.500</td>
+                        <td class="valor-positivo">+5,3%</td>
+                        <td>~1 mês</td>
+                    </tr>
+                    <tr>
+                        <td>-10%</td>
+                        <td>R$ 45.000</td>
+                        <td class="valor-positivo">+11,1%</td>
+                        <td>~2 meses</td>
+                    </tr>
+                    <tr>
+                        <td>-20%</td>
+                        <td>R$ 40.000</td>
+                        <td class="valor-positivo">+25%</td>
+                        <td>~5 meses</td>
+                    </tr>
+                    <tr>
+                        <td>-30%</td>
+                        <td>R$ 35.000</td>
+                        <td class="valor-positivo">+42,9%</td>
+                        <td>~9 meses</td>
+                    </tr>
+                    <tr>
+                        <td class="valor-negativo">-50%</td>
+                        <td>R$ 25.000</td>
+                        <td class="valor-positivo">+100%</td>
+                        <td>~20 meses</td>
+                    </tr>
+                </table>
+
+                <div class="alerta">
+                    <strong>⚠️ REGRA DE OURO:</strong> Perder -50% exige ganhar +100% para recuperar. É MUITO mais fácil preservar do que recuperar!
+                </div>
+
+                <div class="calculo">
+<strong>Plano de Ação em Drawdown:</strong><br>
+<br>
+<strong>Perda de 5-8%:</strong><br>
+→ Revisar operações abertas<br>
+→ Reduzir tamanho de novas posições em 30%<br>
+→ Focar em operações de alta probabilidade<br>
+<br>
+<strong>Perda de 8-12%:</strong><br>
+→ Pausar operações agressivas<br>
+→ Reduzir posições em 50%<br>
+→ Focar apenas em vendas cobertas<br>
+→ Aumentar % em CDI<br>
+<br>
+<strong>Perda > 12%:</strong><br>
+→ PARADA TOTAL por 7-15 dias<br>
+→ Revisão completa da estratégia<br>
+→ Retorno gradual com 25% do tamanho normal<br>
+→ Buscar mentoria/revisão externa
+                </div>
+            </div>
+
+            <h3>5.4 Diversificação Inteligente</h3>
+
+            <div class="exemplo">
+                <div class="exemplo-titulo">Exemplo 8: Portfólio Diversificado - R$ 50.000</div>
+                
+                <div class="calculo">
+<strong>Alocação Sugerida (Perfil Moderado):</strong><br>
+<br>
+<strong>🏦 Reserva Estratégica (40%):</strong> R$ 20.000<br>
+├─ CDB/LCI/LCA 100% CDI: R$ 12.000<br>
+├─ Tesouro Selic: R$ 5.000<br>
+└─ Liquidez imediata: R$ 3.000<br>
+<br>
+<strong>💼 Carteira de Ações (25%):</strong> R$ 12.500<br>
+├─ 3 ações blue chips: R$ 9.000<br>
+│  (PETR4, VALE3, ITUB4)<br>
+└─ 2 ações crescimento: R$ 3.500<br>
+   (WEGE3, RENT3)<br>
+<br>
+<strong>📊 Operações com Opções (35%):</strong> R$ 17.500<br>
+├─ Vendas cobertas: R$ 7.000 (40%)<br>
+├─ Spreads: R$ 5.250 (30%)<br>
+├─ Iron Condors: R$ 3.500 (20%)<br>
+└─ Compras direcionais: R$ 1.750 (10%)<br>
+<br>
+<strong>Setores cobertos:</strong><br>
+• Financeiro: 25%<br>
+• Commodities: 25%<br>
+• Consumo: 20%<br>
+• Tecnologia: 15%<br>
+• Utilidades: 15%
+                </div>
+
+                <div class="comparacao">
+                    <div class="card">
+                        <div class="card-header">✅ Vantagens desta Alocação</div>
+                        <ul>
+                            <li>Proteção em quedas (40% em renda fixa)</li>
+                            <li>Participação em altas (ações)</li>
+                            <li>Renda mensal (opções)</li>
+                            <li>Setores descorrelacionados</li>
+                            <li>Liquidez para oportunidades</li>
+                        </ul>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">📈 Expectativa de Retorno</div>
+                        <ul>
+                            <li>Renda fixa: +11% ao ano</li>
+                            <li>Ações: +15% ao ano</li>
+                            <li>Opções: +60% ao ano</li>
+                            <li><strong>Portfólio total: +28-35% ao ano</strong></li>
+                            <li>VS CDI: +16 a 23pp outperformance</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- MÓDULO 6 -->
+        <section id="modulo6">
+            <h2>Módulo 6: Estudos de Caso Reais</h2>
+
+            <h3>6.1 Caso 1: Recuperação Pós-Queda do Mercado</h3>
+
+            <div class="exemplo">
+                <div class="exemplo-titulo">Cenário: IBOV caiu 15% em 30 dias</div>
+                
+                <p><strong>Situação:</strong> Mercado em pânico, volatilidade implícita disparou, ações de qualidade baratas</p>
+                
+                <div class="calculo">
+<strong>Análise da Oportunidade:</strong><br>
+<br>
+PETR4 caiu de R$ 35 para R$ 28 (-20%)<br>
+Volatilidade implícita: de 35% para 65%<br>
+Prêmios das puts inflados pelo medo<br>
+<br>
+<strong>Estratégia: Venda de Puts (Bull Put Spread)</strong><br>
+<br>
+Capital disponível: R$ 50.000<br>
+Tese: Recuperação parcial nos próximos 45 dias<br>
+<br>
+<strong>Operação:</strong><br>
+VENDE: 50 PETRU26 (Put R$ 26) por R$ 1,80 = <span class="valor-positivo">+R$ 9.000</span><br>
+COMPRA: 50 PETRU24 (Put R$ 24) por R$ 0,70 = <span class="valor-negativo">-R$ 3.500</span><br>
+<br>
+Crédito líquido: <span class="valor-positivo">R$ 5.500</span><br>
+Garantia necessária: R$ 10.000<br>
+<br>
+<strong>Análise de Risco:</strong><br>
+Perda máxima: (R$ 26 - R$ 24) × 5.000 - R$ 5.500 = <span class="valor-negativo">R$ 4.500</span><br>
+Ganho máximo: <span class="valor-positivo">R$ 5.500</span><br>
+Relação risco/retorno: 1,22:1 favorável<br>
+Break-even: R$ 24,90<br>
+<br>
+<strong>Resultado após 45 dias:</strong><br>
+PETR4 fecha em R$ 30,50 (+8,9%)<br>
+Ambas puts expiram sem valor<br>
+Lucro: <span class="valor-positivo">R$ 5.500</span><br>
+Rentabilidade sobre garantia: +55%<br>
+Rentabilidade anualizada: >300%<br>
+<br>
+<strong>Com R$ 50k poderia fazer 4 operações similares:</strong><br>
+Ganho total estimado: <span class="valor-positivo">R$ 22.000</span> (+44% em 45 dias)
+                </div>
+
+                <div class="sucesso">
+                    <strong>✅ LIÇÃO:</strong> Quedas acentuadas criam oportunidades extraordinárias para vendedores de opções. A volatilidade inflada gera prêmios excelentes com boa margem de segurança.
+                </div>
+            </div>
+
+            <h3>6.2 Caso 2: Geração de Renda Consistente</h3>
+
+            <div class="exemplo">
+                <div class="exemplo-titulo">Estratégia: Venda Mensal Sistemática - 12 meses</div>
+                
+                <p><strong>Objetivo:</strong> Superar CDI com operações de baixo risco e renda previsível</p>
+                
+                <div class="calculo">
+<strong>Metodologia:</strong><br>
+<br>
+Capital dedicado: R$ 30.000 (60% do total)<br>
+Reserva CDI: R$ 20.000 (40%)<br>
+<br>
+<strong>Regras:</strong><br>
+1. Vender apenas puts de ações de qualidade<br>
+2. Strikes com 10-15% de margem de segurança<br>
+3. Vencimentos de 30-45 dias<br>
+4. Target: 3-5% ao mês sobre capital operado<br>
+5. Se exercido, manter ação e vender calls<br>
+<br>
+<strong>Mês 1 - VALE3 a R$ 70:</strong><br>
+Vende 60 VALEU66 (Put R$ 66) por R$ 1,20<br>
+Prêmio: <span class="valor-positivo">R$ 7.200</span><br>
+Garantia usada: R$ 25.000<br>
+Resultado: expirou sem exercício<br>
+Retorno: +28,8% no mês (sobre garantia)<br>
+<br>
+<strong>Mês 2 - ITUB4 a R$ 28:</strong><br>
+Vende 80 ITUBV26 (Put R$ 26) por R$ 0,90<br>
+Prêmio: <span class="valor-positivo">R$ 7.200</span><br>
+ITUB4 cai para R$ 25,50 → EXERCIDO<br>
+Compra forçada: 8.000 ações a R$ 26<br>
+Prejuízo "no papel": R$ 4.000<br>
+<br>
+<strong>Mês 3 - Recuperação ITUB4:</strong><br>
+ITUB4 em R$ 27,20<br>
+Vende 80 ITUBK28 (Call R$ 28) por R$ 0,70<br>
+Prêmio: <span class="valor-positivo">R$ 5.600</span><br>
+<br>
+<strong>Mês 4:</strong><br>
+ITUB4 sobe para R$ 28,50 → Ações vendidas a R$ 28<br>
+Lucro na ação: (R$ 28 - R$ 26) × 8.000 = R$ 16.000<br>
+Soma dos prêmios (put + call): R$ 12.800<br>
+Lucro líquido nesta operação: <span class="valor-positivo">R$ 28.800</span><br>
+<br>
+<strong>Continuação meses 5-12...</strong><br>
+Média mensal alcançada: 4,2%<br>
+<br>
+<strong>RESULTADO ANUAL:</strong><br>
+<br>
+Parte CDI (R$ 20k): +11,4% = R$ 22.280<br>
+Parte Opções (R$ 30k): +63% = R$ 48.900<br>
+<br>
+Total: <span class="valor-positivo">R$ 71.180</span><br>
+Rentabilidade geral: <span class="valor-positivo">+42,4%</span><br>
+<br>
+<strong>VS CDI puro:</strong><br>
+CDI: R$ 55.677 (+11,4%)<br>
+Estratégia: R$ 71.180 (+42,4%)<br>
+<strong>Vantagem: <span class="valor-positivo">R$ 15.503</span> (+31pp)</strong>
+                </div>
+
+                <table>
+                    <tr>
+                        <th>Mês</th>
+                        <th>Operação</th>
+                        <th>Resultado</th>
+                        <th>Capital Acum.</th>
+                    </tr>
+                    <tr>
+                        <td>Jan</td>
+                        <td>Vendas Puts VALE3</td>
+                        <td class="valor-positivo">+R$ 7.200</td>
+                        <td>R$ 57.200</td>
+                    </tr>
+                    <tr>
+                        <td>Fev</td>
+                        <td>Vendas Puts ITUB4</td>
+                        <td class="valor-negativo">-R$ 4.000*</td>
+                        <td>R$ 53.200</td>
+                    </tr>
+                    <tr>
+                        <td>Mar</td>
+                        <td>Vendas Calls ITUB4</td>
+                        <td class="valor-positivo">+R$ 5.600</td>
+                        <td>R$ 58.800</td>
+                    </tr>
+                    <tr>
+                        <td>Abr</td>
+                        <td>Lucro final ITUB4</td>
+                        <td class="valor-positivo">+R$ 16.000</td>
+                        <td>R$ 74.800</td>
+                    </tr>
+                    <tr>
+                        <td>Mai-Dez</td>
+                        <td>Operações diversas</td>
+                        <td class="valor-positivo">+R$ 26.380</td>
+                        <td>R$ 71.180</td>
+                    </tr>
+                </table>
+                <p style="font-size: 0.9em; color: #666;">*Perda temporária, recuperada com call coberta</p>
+
+                <div class="destaque">
+                    <strong>💡 INSIGHTS IMPORTANTES:</strong><br>
+                    <ul style="margin-top: 10px;">
+                        <li>Exercício de put não é "desastre", é oportunidade de comprar barato</li>
+                        <li>Call coberta transforma papel perdedor em lucrativo</li>
+                        <li>Consistência > home runs esporádicos</li>
+                        <li>Diversificação temporal reduz risco de múltiplos exercícios</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3>6.3 Caso 3: Operação Direcional de Alto Ganho</h3>
+
+            <div class="exemplo">
+                <div class="exemplo-titulo">Cenário: Evento Corporativo Previsível</div>
+                
+                <p><strong>Situação:</strong> Empresa anuncia dividendo extraordinário + JCP em 15 dias</p>
+                <p><strong>Ativo:</strong> BBDC4 (Bradesco)</p>
+                
+                <div class="calculo">
+<strong>Análise Fundamentalista:</strong><br>
+<br>
+BBDC4 cotada a R$ 18,50<br>
+Anúncio: R$ 1,20 em proventos (6,5% do preço)<br>
+Histórico: ação costuma subir 3-5% pré-provento<br>
+Data-com: 15 dias úteis<br>
+<br>
+<strong>Estratégia Escolhida: Bull Call Spread</strong><br>
+(Risco limitado, aproveita alta moderada)<br>
+<br>
+<strong>Montagem:</strong><br>
+COMPRA: 300 BBDCK185 (Strike R$ 18,50) por R$ 0,65<br>
+Investimento: 300 × 100 × R$ 0,65 = <span class="valor-negativo">R$ 19.500</span><br>
+<br>
+VENDE: 300 BBDCK20 (Strike R$ 20) por R$ 0,25<br>
+Crédito: 300 × 100 × R$ 0,25 = <span class="valor-positivo">R$ 7.500</span><br>
+<br>
+Débito líquido: <span class="valor-negativo">R$ 12.000</span> (24% do capital)<br>
+Capital restante: R$ 38.000 em CDI<br>
+<br>
+<strong>Gestão da Operação:</strong><br>
+<br>
+Dia 5: BBDC4 em R$ 19,20 (+3,8%)<br>
+Spread valendo R$ 0,70 × 30.000 = R$ 21.000<br>
+Lucro não realizado: +75%<br>
+Decisão: manter até próximo data-com<br>
+<br>
+Dia 12 (3 dias antes data-com): BBDC4 = R$ 19,80<br>
+Spread valendo R$ 1,30 × 30.000 = R$ 39.000<br>
+Lucro: R$ 39.000 - R$ 12.000 = <span class="valor-positivo">R$ 27.000</span><br>
+Decisão: <strong>REALIZAR LUCRO</strong> (não arriscar o ex-dividendo)<br>
+<br>
+<strong>Resultado Final:</strong><br>
+Lucro: <span class="valor-positivo">R$ 27.000</span><br>
+Rentabilidade: +225% em 12 dias<br>
+Sobre capital total (R$ 50k): +54%<br>
+<br>
+<strong>Comparação com CDI (12 dias):</strong><br>
+CDI: R$ 50.000 × (1,0115^0,4) = R$ 50.229<br>
+Ganho CDI: R$ 229<br>
+<br>
+<strong>Estratégia de Opções superou CDI em: 118x!</strong>
+                </div>
+
+                <div class="alerta">
+                    <strong>⚠️ ATENÇÃO:</strong> Este caso representa uma operação de ALTA CONVICÇÃO baseada em evento conhecido. NÃO é para fazer rotineiramente. Características necessárias:
+                    <ul style="margin-top: 10px;">
+                        <li>Evento com alta previsibilidade</li>
+                        <li>Histórico estatístico favorável</li>
+                        <li>Risco definido (spread, não compra naked)</li>
+                        <li>Stop loss mental em -30%</li>
+                        <li>Realização parcial/total em ganhos substanciais</li>
+                        <li>Não alocar mais de 25% do capital</li>
+                    </ul>
+                </div>
+
+                <div class="sucesso">
+                    <strong>✅ LIÇÃO PRINCIPAL:</strong> Operações direcionais bem fundamentadas, com risco controlado e timing adequado, podem gerar retornos extraordinários. Mas exigem disciplina para realizar lucros e não "segurar esperando mais".
+                </div>
+            </div>
+        </section>
+
+        <!-- MÓDULO 7 -->
+        <section id="modulo7">
+            <h2>Módulo 7: Estratégias Avançadas TradeMap</h2>
+
+            <h3>7.1 Venda Coberta (Covered Call)</h3>
+
+            <div class="exemplo">
+                <div class="exemplo-titulo">Estratégia de Geração de Renda Mensal</div>
+                
+                <p><strong>Definição:</strong> Vender calls das ações que você possui em carteira para gerar renda recorrente através de prêmios.</p>
+                
+                <p><strong>Como funciona:</strong></p>
+                <ul style="margin-left: 20px;">
+                    <li>Você possui ações em carteira</li>
+                    <li>Vende calls dessas ações recebendo prêmio</li>
+                    <li>Fica com obrigação de vender pelo strike</li>
+                    <li>Limita ganho na alta, mas recebe renda</li>
+                </ul>
+
+                <div class="calculo">
+<strong>Exemplo com R$ 50.000:</strong><br>
+<br>
+Carteira: 3.000 VALE3 compradas a R$ 16,50 (R$ 49.500)<br>
+Ação atual: R$ 17,00<br>
+<br>
+<strong>3 Tipos de Venda Coberta:</strong><br>
+<br>
+<strong>1. VENDA COBERTA OTM (Strike R$ 18):</strong><br>
+Vende 30 calls VALE3K18 por R$ 0,50<br>
+Prêmio recebido: 30 × 100 × R$ 0,50 = <span class="valor-positivo">R$ 1.500</span><br>
+Lucro máximo: [(R$ 18 - R$ 16,50) × 3.000] + R$ 1.500 = R$ 6.000<br>
+Rentabilidade máxima: 12,1%<br>
+Proteção: 2,9% (até R$ 16,50)<br>
+<br>
+<strong>2. VENDA COBERTA ATM (Strike R$ 17):</strong><br>
+Vende 30 calls VALE3K17 por R$ 1,00<br>
+Prêmio recebido: 30 × 100 × R$ 1,00 = <span class="valor-positivo">R$ 3.000</span><br>
+Lucro máximo: [(R$ 17 - R$ 16,50) × 3.000] + R$ 3.000 = R$ 4.500<br>
+Rentabilidade máxima: 9,1%<br>
+Proteção: 5,9% (até R$ 16,00)<br>
+<br>
+<strong>3. VENDA COBERTA ITM (Strike R$ 16):</strong><br>
+Vende 30 calls VALE3K16 por R$ 2,00<br>
+Prêmio recebido: 30 × 100 × R$ 2,00 = <span class="valor-positivo">R$ 6.000</span><br>
+Lucro máximo: se exercido = R$ 6.000 (apenas prêmio)<br>
+Rentabilidade máxima: 12,1%<br>
+Proteção: 11,8% (até R$ 15,00)<br>
+                </div>
+
+                <table>
+                    <tr>
+                        <th>Tipo</th>
+                        <th>Strike</th>
+                        <th>Prêmio</th>
+                        <th>Lucro Máx</th>
+                        <th>Proteção</th>
+                        <th>Perfil</th>
+                    </tr>
+                    <tr>
+                        <td><strong>OTM</strong></td>
+                        <td>R$ 18,00</td>
+                        <td>R$ 1.500</td>
+                        <td class="valor-positivo">+12,1%</td>
+                        <td>2,9%</td>
+                        <td>Agressivo</td>
+                    </tr>
+                    <tr>
+                        <td><strong>ATM</strong></td>
+                        <td>R$ 17,00</td>
+                        <td>R$ 3.000</td>
+                        <td class="valor-positivo">+9,1%</td>
+                        <td>5,9%</td>
+                        <td>Moderado</td>
+                    </tr>
+                    <tr>
+                        <td><strong>ITM</strong></td>
+                        <td>R$ 16,00</td>
+                        <td>R$ 6.000</td>
+                        <td class="valor-positivo">+12,1%</td>
+                        <td>11,8%</td>
+                        <td>Conservador</td>
+                    </tr>
+                </table>
+
+                <div class="destaque">
+                    <strong>💡 ROLAGEM:</strong> É possível receber prêmio todos os meses através da rolagem - encerrar posição próxima ao vencimento e abrir nova posição para o vencimento seguinte.
+                </div>
+            </div>
+
+            <h3>7.2 Booster (Venda Coberta em Dobro)</h3>
+
+            <div class="exemplo">
+                <div class="exemplo-titulo">Estratégia para Dobrar Ganhos em Alta Moderada</div>
+                
+                <p><strong>Definição:</strong> Operação ZCC (Zero Cost Call) que dobra o ganho em alta moderada do ativo, com lucro limitado.</p>
+                
+                <p><strong>Como montar:</strong></p>
+                <ul style="margin-left: 20px;">
+                    <li>Comprar a ação</li>
+                    <li>Comprar call ATM (próximo ao preço)</li>
+                    <li>Vender 2x calls OTM (distante do preço)</li>
+                    <li>Prêmio recebido paga custo das calls compradas</li>
+                </ul>
+
+                <div class="calculo">
+<strong>Exemplo com R$ 50.000:</strong><br>
+<br>
+<strong>Montagem:</strong><br>
+COMPRA: 3.500 ações BBDC4 a R$ 14,00 = <span class="valor-negativo">R$ 49.000</span><br>
+COMPRA: 35 calls BBDCK14 por R$ 0,70 = <span class="valor-negativo">R$ 2.450</span><br>
+VENDE: 70 calls BBDCK15 por R$ 0,35 = <span class="valor-positivo">R$ 2.450</span><br>
+<br>
+<strong>Custo líquido das opções: R$ 0,00 (ZCC)</strong><br>
+Capital total investido: R$ 49.000<br>
+<br>
+<strong>Análise de Cenários:</strong><br>
+<br>
+<strong>BBDC4 sobe para R$ 15,00:</strong><br>
+Lucro nas ações: (R$ 15 - R$ 14) × 3.500 = R$ 3.500<br>
+Lucro nas calls compradas: (R$ 15 - R$ 14) × 3.500 = R$ 3.500<br>
+Calls vendidas expiram sem valor<br>
+<strong>LUCRO TOTAL: <span class="valor-positivo">R$ 7.000</span> (14,28%)</strong><br>
+<br>
+<strong>Sem Booster (apenas ações):</strong><br>
+Lucro: R$ 3.500 (7,14%)<br>
+<br>
+<strong>VANTAGEM DO BOOSTER: DOBRA O RETORNO!</strong><br>
+<br>
+<strong>BBDC4 acima de R$ 15,00:</strong><br>
+Ganho limitado em R$ 7.000 (call vendida trava lucro)<br>
+<br>
+<strong>BBDC4 cai:</strong><br>
+Prejuízo = queda da ação (sem custo adicional de opções)
+                </div>
+
+                <div class="comparacao">
+                    <div class="card">
+                        <div class="card-header">📊 Sem Booster</div>
+                        <p><strong>Investimento:</strong> R$ 49.000</p>
+                        <p><strong>Retorno (R$ 15):</strong></p>
+                        <p class="valor-positivo" style="font-size: 1.3em;">R$ 3.500</p>
+                        <p><strong>Rentabilidade:</strong> +7,14%</p>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">🚀 Com Booster</div>
+                        <p><strong>Investimento:</strong> R$ 49.000</p>
+                        <p><strong>Retorno (R$ 15):</strong></p>
+                        <p class="valor-positivo" style="font-size: 1.3em;">R$ 7.000</p>
+                        <p><strong>Rentabilidade:</strong> +14,28%</p>
+                    </div>
+                </div>
+
+                <div class="sucesso">
+                    <strong>✅ VANTAGEM:</strong> Custo zero nas opções + dobra retorno em alta moderada + ganha com passagem do tempo + ganha com redução de volatilidade implícita.
+                </div>
+            </div>
+
+            <h3>7.3 Borboleta (Butterfly)</h3>
+
+            <div class="exemplo">
+                <div class="exemplo-titulo">Estratégia para Lateralização com Risco Controlado</div>
+                
+                <p><strong>Definição:</strong> Estratégia para lucrar com baixa volatilidade e lateralização do preço em torno de um alvo definido.</p>
+                
+                <p><strong>Características:</strong></p>
+                <ul style="margin-left: 20px;">
+                    <li>Ganho limitado no preço-alvo</li>
+                    <li>Perdas limitadas em movimentos fortes</li>
+                    <li>Ganha com passagem do tempo (Theta+)</li>
+                    <li>Operação vendida em volatilidade</li>
+                </ul>
+
+                <p><strong>Como montar:</strong></p>
+                <ul style="margin-left: 20px;">
+                    <li>Comprar 1 call ITM (strike baixo)</li>
+                    <li>Vender 2x calls ATM (strike médio = alvo)</li>
+                    <li>Comprar 1 call OTM (strike alto)</li>
+                    <li>Volatilidade ideal: ALTA</li>
+                </ul>
+
+                <div class="calculo">
+<strong>Exemplo com R$ 50.000:</strong><br>
+<br>
+Ativo: WEGE3 cotada a R$ 9,00<br>
+Expectativa: lateralização em torno de R$ 9,00<br>
+<br>
+<strong>Montagem (múltiplas borboletas):</strong><br>
+<br>
+COMPRA: 50 calls WEGEK7 (Strike R$ 7) por R$ 2,50<br>
+Custo: 50 × 100 × R$ 2,50 = <span class="valor-negativo">R$ 12.500</span><br>
+<br>
+VENDE: 100 calls WEGEK9 (Strike R$ 9) por R$ 1,10<br>
+Recebe: 100 × 100 × R$ 1,10 = <span class="valor-positivo">R$ 11.000</span><br>
+<br>
+COMPRA: 50 calls WEGEK11 (Strike R$ 11) por R$ 0,40<br>
+Custo: 50 × 100 × R$ 0,40 = <span class="valor-negativo">R$ 2.000</span><br>
+<br>
+<strong>Custo total de montagem: R$ 3.500</strong><br>
+Capital restante: R$ 46.500<br>
+<br>
+<strong>Análise de Resultados:</strong><br>
+<br>
+<strong>Preço-alvo (R$ 9,00) no vencimento:</strong><br>
+Lucro máximo = (R$ 9 - R$ 7) × 5.000 - R$ 3.500<br>
+<strong>LUCRO: <span class="valor-positivo">R$ 6.500</span> (+185% sobre custo)</strong><br>
+<br>
+<strong>Zona de proteção:</strong><br>
+Entre R$ 7,70 e R$ 10,30 → não perde nada<br>
+(pode desmontar recuperando custo inicial)<br>
+<br>
+<strong>Prejuízo máximo:</strong><br>
+Se WEGE3 < R$ 7,00 ou > R$ 11,00<br>
+Perda: <span class="valor-negativo">R$ 3.500</span> (custo de montagem)<br>
+<br>
+<strong>Relação Risco/Retorno:</strong><br>
+Ganho máximo: R$ 6.500<br>
+Perda máxima: R$ 3.500<br>
+Relação: 1,86:1 (favorável)
+                </div>
+
+                <table>
+                    <tr>
+                        <th>Preço WEGE3</th>
+                        <th>Resultado</th>
+                        <th>% sobre custo</th>
+                    </tr>
+                    <tr>
+                        <td>R$ 6,00</td>
+                        <td class="valor-negativo">-R$ 3.500</td>
+                        <td class="valor-negativo">-100%</td>
+                    </tr>
+                    <tr>
+                        <td>R$ 7,70</td>
+                        <td>R$ 0</td>
+                        <td>0%</td>
+                    </tr>
+                    <tr>
+                        <td>R$ 8,00</td>
+                        <td class="valor-positivo">+R$ 1.500</td>
+                        <td class="valor-positivo">+43%</td>
+                    </tr>
+                    <tr>
+                        <td>R$ 9,00 ⭐</td>
+                        <td class="valor-positivo">+R$ 6.500</td>
+                        <td class="valor-positivo">+185%</td>
+                    </tr>
+                    <tr>
+                        <td>R$ 10,00</td>
+                        <td class="valor-positivo">+R$ 1.500</td>
+                        <td class="valor-positivo">+43%</td>
+                    </tr>
+                    <tr>
+                        <td>R$ 10,30</td>
+                        <td>R$ 0</td>
+                        <td>0%</td>
+                    </tr>
+                    <tr>
+                        <td>R$ 12,00</td>
+                        <td class="valor-negativo">-R$ 3.500</td>
+                        <td class="valor-negativo">-100%</td>
+                    </tr>
+                </table>
+
+                <div class="alerta">
+                    <strong>⚠️ ATENÇÃO:</strong> A borboleta é uma operação vendida em volatilidade. Ganha com redução da volatilidade implícita. Caso atípico: paga-se para montar operação vendida (maioria recebe prêmio).
+                </div>
+
+                <div class="destaque">
+                    <strong>💡 BORBOLETA INVESTIDA:</strong> Existe também a versão invertida, que tem prejuízo máximo quando ação fica no preço-alvo e ganha quando vai para extremos. Usada quando se espera movimento forte mas não sabe direção.
+                </div>
+            </div>
+
+            <h3>7.4 Comparativo das Três Estratégias</h3>
+
+            <table>
+                <tr>
+                    <th>Estratégia</th>
+                    <th>Expectativa</th>
+                    <th>Risco</th>
+                    <th>Retorno</th>
+                    <th>Complexidade</th>
+                </tr>
+                <tr>
+                    <td><strong>Venda Coberta</strong></td>
+                    <td>Alta moderada ou lateral</td>
+                    <td>Baixo/Médio</td>
+                    <td>4-12% mensal</td>
+                    <td>⭐⭐</td>
+                </tr>
+                <tr>
+                    <td><strong>Booster</strong></td>
+                    <td>Alta moderada específica</td>
+                    <td>Médio</td>
+                    <td>Dobro da alta</td>
+                    <td>⭐⭐⭐</td>
+                </tr>
+                <tr>
+                    <td><strong>Borboleta</strong></td>
+                    <td>Lateralização precisa</td>
+                    <td>Baixo (limitado)</td>
+                    <td>Alto no alvo</td>
+                    <td>⭐⭐⭐⭐</td>
+                </tr>
+            </table>
+        </section>
+
+        <!-- MÓDULO 8 -->
+        <section id="modulo8">
+            <h2>Módulo 8: As 10 Estratégias Profissionais (Fórmula do Investimento Assimétrico)</h2>
+
+            <div class="destaque">
+                <strong>📚 Baseado em:</strong> Caio Mathias - Ex-formador de mercado<br>
+                <strong>Conceito:</strong> Investimento Assimétrico = Quando ganhamos, ganhamos muito; quando perdemos, perdemos pouco<br>
+                <strong>Filosofia:</strong> "Feito é melhor que perfeito. Executar uma etapa é mais importante do que saber fazer ela com perfeição."
+            </div>
+
+            <h3>8.1 Estratégia 1: Alocar Capital</h3>
+
+            <div class="exemplo">
+                <div class="exemplo-titulo">Diversificação Inteligente do Patrimônio</div>
+                
+                <p><strong>Conceito:</strong> Modelo de Markowitz mostra que a melhor decisão NÃO é ter todo capital em renda variável.</p>
+
+                <div class="calculo">
+<strong>Exemplo com R$ 50.000:</strong><br>
+<br>
+<strong>Alocação Sugerida (Perfil Moderado):</strong><br>
+<br>
+📊 <strong>Inflação (IPCA+):</strong> R$ 7.500 (15%)<br>
+└─ Tesouro IPCA+ ou Títulos privados<br>
+<br>
+📊 <strong>Pré-fixado:</strong> R$ 5.000 (10%)<br>
+└─ Tesouro Prefixado ou CDBs pré<br>
+<br>
+💵 <strong>Dólar:</strong> R$ 5.000 (10%)<br>
+└─ Fundos cambiais ou ETFs dólar<br>
+<br>
+🏢 <strong>Imóveis (FIIs):</strong> R$ 7.500 (15%)<br>
+└─ Fundos imobiliários diversificados<br>
+<br>
+📈 <strong>AÇÕES E OPÇÕES:</strong> R$ 20.000 (40%)<br>
+└─ Aqui aplicamos as 6 estratégias seguintes<br>
+<br>
+💰 <strong>Pós-fixado (Caixa):</strong> R$ 5.000 (10%)<br>
+└─ Tesouro Selic para oportunidades<br>
+<br>
+<strong>TOTAL: R$ 50.000</strong>
+                </div>
+
+                <table>
+                    <tr>
+                        <th>Ativo</th>
+                        <th>Alocação</th>
+                        <th>Função</th>
+                        <th>Risco</th>
+                    </tr>
+                    <tr>
+                        <td>Inflação</td>
+                        <td>15%</td>
+                        <td>Proteção poder de compra</td>
+                        <td>Baixo</td>
+                    </tr>
+                    <tr>
+                        <td>Pré-fixado</td>
+                        <td>10%</td>
+                        <td>Previsibilidade</td>
+                        <td>Baixo/Médio</td>
+                    </tr>
+                    <tr>
+                        <td>Dólar</td>
+                        <td>10%</td>
+                        <td>Hedge internacional</td>
+                        <td>Médio</td>
+                    </tr>
+                    <tr>
+                        <td>FIIs</td>
+                        <td>15%</td>
+                        <td>Renda recorrente</td>
+                        <td>Médio</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Ações/Opções</strong></td>
+                        <td><strong>40%</strong></td>
+                        <td><strong>Crescimento</strong></td>
+                        <td><strong>Alto</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Caixa</td>
+                        <td>10%</td>
+                        <td>Oportunidades</td>
+                        <td>Muito Baixo</td>
+                    </tr>
+                </table>
+
+                <div class="sucesso">
+                    <strong>✅ REBALANCEAMENTO:</strong> A cada 3-6 meses, rebalancear para manter proporções. Isso força você a "vender na alta e comprar na baixa" automaticamente.
+                </div>
+            </div>
+
+            <h3>8.2 Estratégia 2: Selecionar Ações</h3>
+
+            <div class="exemplo">
+                <div class="exemplo-titulo">Empresas Boas E Baratas (Valuation)</div>
+                
+                <p><strong>Princípio:</strong> Não basta empresa boa, precisa estar barata. Análise de fundamentos funciona no médio/longo prazo.</p>
+
+                <div class="calculo">
+<strong>Critérios de Seleção:</strong><br>
+<br>
+✅ Empresa com bons fundamentos<br>
+✅ Preço justo (Valuation)<br>
+✅ Mercado líquido de opções<br>
+✅ Setores diversificados<br>
+✅ Horizonte: 1 a 5 anos<br>
+<br>
+<strong>Exemplo de Carteira com R$ 20.000:</strong><br>
+(40% dos R$ 50.000 totais)<br>
+<br>
+📊 <strong>Financeiro (25%):</strong> R$ 5.000<br>
+├─ ITUB4: R$ 2.500<br>
+└─ BBDC4: R$ 2.500<br>
+<br>
+⛏️ <strong>Commodities (25%):</strong> R$ 5.000<br>
+├─ VALE3: R$ 2.500<br>
+└─ PETR4: R$ 2.500<br>
+<br>
+🛒 <strong>Consumo (20%):</strong> R$ 4.000<br>
+└─ ABEV3: R$ 4.000<br>
+<br>
+⚙️ <strong>Indústria (15%):</strong> R$ 3.000<br>
+└─ WEGE3: R$ 3.000<br>
+<br>
+💡 <strong>Utilidades (15%):</strong> R$ 3.000<br>
+└─ ELET3: R$ 3.000<br>
+<br>
+<strong>Total: 7-8 ações diferentes</strong>
+                </div>
+
+                <div class="alerta">
+                    <strong>⚠️ REGRAS IMPORTANTES:</strong>
+                    <ul style="margin-top: 10px;">
+                        <li>Mínimo 7 ações, ideal 8-13</li>
+                        <li>Exposição máxima 15% por ação</li>
+                        <li>Setores diversificados</li>
+                        <li>Acompanhar analistas de qualidade</li>
+                        <li>Dividendos NÃO é o foco principal</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3>8.3 Estratégia 3: Estratégia de Valor</h3>
+
+            <div class="exemplo">
+                <div class="exemplo-titulo">Comprar Empresas Baratas e Lucrar no Longo Prazo</div>
+                
+                <p><strong>Objetivo:</strong> A maneira mais simples de construir fortuna. Exige paciência, estudo e resiliência.</p>
+
+                <div class="calculo">
+<strong>Implementação com R$ 20.000:</strong><br>
+<br>
+<strong>Opção 1: Apenas ações (simples)</strong><br>
+Comprar as ações selecionadas na Etapa 2<br>
+<br>
+<strong>Opção 2: Com opções (otimizado)</strong><br>
+Para ações com mercado líquido de opções:<br>
+<br>
+<strong>Exemplo VALE3:</strong><br>
+Meta de exposição: R$ 2.500 (Delta 100%)<br>
+<br>
+<strong>Alternativa A - Trava de Alta:</strong><br>
+COMPRA: 25 calls VALEK65 por R$ 3,00 = R$ 7.500<br>
+VENDE: 25 calls VALEK70 por R$ 1,00 = -R$ 2.500<br>
+Custo líquido: R$ 5.000<br>
+Delta inicial: ≈ 60% = R$ 1.500 equivalente<br>
+<br>
+<strong>Alternativa B - Venda de Puts:</strong><br>
+VENDE: 25 puts VALEU63 por R$ 2,00<br>
+Recebe: R$ 5.000<br>
+Delta: ≈ -30% = comprado em R$ 1.500 equivalente<br>
+Se exercido: compra 2.500 VALE3 a R$ 63 = R$ 157.500<br>
+(precisa de garantia/margem)
+                </div>
+
+                <div class="destaque">
+                    <strong>💡 ATENÇÃO AO DELTA:</strong> Delta total em cada ação deve ser inferior a 15% do total da estratégia. Evitar opções com menos de 1 mês para vencimento.
+                </div>
+            </div>
+
+            <h3>8.4 Estratégia 4: Estratégia de Carrego</h3>
+
+            <div class="exemplo">
+                <div class="exemplo-titulo">Short BOVA11 + Venda de Puts = Proteção + Renda</div>
+                
+                <p><strong>Objetivo:</strong> Estabilidade na carteira + levantar capital barato + criar renda + proteção rápida.</p>
+
+                <div class="calculo">
+<strong>Implementação:</strong><br>
+<br>
+<strong>Passo 1: Planejar margem</strong><br>
+Disponível para margem: R$ 15.000<br>
+(Tesouro Selic, ações, alguns CDBs)<br>
+<br>
+<strong>Passo 2: Short BOVA11</strong><br>
+Delta total Estratégia Valor: R$ 12.000<br>
+Tomar aluguel BOVA11: 2% ao ano<br>
+Vender 1.000 BOVA11 a R$ 120 = R$ 120.000 short<br>
+Recebe caixa em D+2: R$ 120.000<br>
+<br>
+<strong>Passo 3: Vender Puts BOVA11</strong><br>
+Vender 2/3 do short (se neutro/otimista)<br>
+VENDE: 66 puts BOVAN115 por R$ 3,00<br>
+Prêmio recebido: 66 × 100 × R$ 3,00 = <span class="valor-positivo">R$ 19.800</span><br>
+<br>
+<strong>Resultado:</strong><br>
+- Proteção contra queda das ações<br>
+- Renda mensal com puts vendidas<br>
+- Capital levantado com aluguel barato<br>
+- Ajuste rápido se mercado deteriorar
+                </div>
+
+                <div class="sucesso">
+                    <strong>✅ ROLAGEM:</strong> Rolar puts para strike mais alto e/ou próximo vencimento quando atual estiver "pózinho". Monitorar aluguel BOVA11 (deve ser sempre baixo: 1-3% a.a.)
+                </div>
+            </div>
+
+            <h3>8.5 Estratégia 5: Figuras (Oportunidades Extraordinárias)</h3>
+
+            <div class="exemplo">
+                <div class="exemplo-titulo">Alta Alavancagem com Risco Controlado</div>
+                
+                <p><strong>Conceito:</strong> Toda grande oportunidade vem com grande risco. Opções limitam perda e garantem grande lucro se acertar.</p>
+
+                <div class="calculo">
+<strong>Regras:</strong><br>
+- Máximo 0,5% do patrimônio por operação<br>
+- Com R$ 50.000 → máximo R$ 250 de risco<br>
+- Máximo 15 operações por ano<br>
+- Paciência: montar apenas grandes oportunidades<br>
+<br>
+<strong>Tipo 1: Alta alavancagem / Baixa probabilidade</strong><br>
+Borboletas, estruturas com barreira<br>
+Se errar: perde pouco<br>
+Se acertar: multiplica por 2x, 3x... 6x<br>
+<br>
+<strong>Exemplo Borboleta WEGE3:</strong><br>
+(mesmo do Módulo 7, mas com sizing correto)<br>
+Custo: R$ 700 por "borboleta"<br>
+Ganho máximo: R$ 1.300<br>
+Com R$ 250 de risco → montar 0,35 "borboleta"<br>
+Custo: R$ 245<br>
+Ganho potencial: R$ 455 (+185%)<br>
+<br>
+<strong>Tipo 2: Baixa alavancagem / Alta probabilidade</strong><br>
+Venda de travas, venda de digitais<br>
+Se errar: perde mais que ganha<br>
+Se acertar: alta probabilidade de ganho<br>
+<br>
+<strong>Exemplo Venda de Trava:</strong><br>
+VENDE trava alta PETR4 35-38<br>
+Recebe crédito: R$ 100<br>
+Risco máximo: R$ 200<br>
+Probabilidade acerto: 75%
+                </div>
+
+                <div class="alerta">
+                    <strong>⚠️ PACIÊNCIA:</strong> Pense numa tabela com 15 espaços no ano. Cada operação preenche um espaço. Não desperdice com oportunidades medianas!
+                </div>
+            </div>
+
+            <h3>8.6 Estratégia 6: Dispersão para Alta</h3>
+
+            <div class="exemplo">
+                <div class="exemplo-titulo">Superar o Ibovespa Comprando Calls das Melhores Ações</div>
+                
+                <p><strong>Tese:</strong> Suas ações baratas devem subir mais ou cair menos que a média. Comprar calls delas + vender calls Ibovespa = descorrelação.</p>
+
+                <div class="calculo">
+<strong>Implementação:</strong><br>
+<br>
+Capital alocado: R$ 2.000 (10% da parte ações)<br>
+<br>
+<strong>Passo 1: Vender Calls BOVA11</strong><br>
+Delta alvo: 11% do patrimônio ações = R$ 2.200<br>
+VENDE: 18 calls BOVAK125 (Delta ≈ 40%)<br>
+Prêmio recebido: R$ 7.200<br>
+<br>
+<strong>Passo 2: Comprar Calls ações selecionadas</strong><br>
+Ações com vol implícita BAIXA (calls baratas)<br>
+<br>
+COMPRA: 30 calls VALEK68 por R$ 2,50 = R$ 7.500<br>
+Delta: 30 × 100 × 0,50 = R$ 1.500<br>
+Peso VALE3 no Ibov: ~8%<br>
+<br>
+COMPRA: 25 calls PETRK37 por R$ 2,00 = R$ 5.000<br>
+Delta: 25 × 100 × 0,45 = R$ 1.125<br>
+Peso PETR4 no Ibov: ~7%<br>
+<br>
+(repetir para outras ações conforme peso Ibov)<br>
+<br>
+<strong>Resultado:</strong><br>
+Carteira descorrelacionada do Ibovespa<br>
+Pode render durante crises<br>
+Foco: seleção de ações + preço das opções
+                </div>
+
+                <div class="destaque">
+                    <strong>💡 GESTÃO:</strong> Monitorar Delta diariamente. Rolar calls para manter exposure. Evitar vender "pózinhos" - Dispersão Alta é boa fonte deles.
+                </div>
+            </div>
+
+            <h3>8.7 Estratégia 7: Dispersão para Queda</h3>
+
+            <div class="exemplo">
+                <div class="exemplo-titulo">Venda de Puts Coberta + Proteção com Puts Ibovespa</div>
+                
+                <p><strong>Diferença:</strong> Mais arriscada (vende opções ações) mas ganho muito mais recorrente e carrego positivo (Theta+).</p>
+
+                <div class="calculo">
+<strong>Implementação:</strong><br>
+<br>
+Capital alocado: R$ 3.000<br>
+<br>
+<strong>Passo 1: Comprar Puts BOVA11 (proteção)</strong><br>
+Delta alvo: -11% do patrimônio ações = -R$ 2.200<br>
+COMPRA: 20 puts BOVAN115 (Delta ≈ -35%)<br>
+Custo: R$ 6.000<br>
+Vencimento: 2 meses (mais longo)<br>
+<br>
+<strong>Passo 2: Vender Puts ações selecionadas</strong><br>
+Ações com vol implícita ALTA (puts caras)<br>
+<br>
+VENDE: 40 puts VALEU65 por R$ 1,80 = R$ 7.200<br>
+Delta: 40 × 100 × -0,30 = -R$ 1.200<br>
+Vencimento: 1 mês (curto para theta+)<br>
+<br>
+VENDE: 35 puts PETRU35 por R$ 1,50 = R$ 5.250<br>
+Delta: 35 × 100 × -0,25 = -R$ 875<br>
+<br>
+(repetir conforme peso no Ibov)<br>
+<br>
+<strong>Características:</strong><br>
+✅ Ganho recorrente (prêmios puts)<br>
+✅ Theta positivo (ganha com tempo)<br>
+⚠️ Risco: se exercido, compra ações<br>
+✅ Solução: se exercido, vira Estratégia Valor
+                </div>
+
+                <div class="alerta">
+                    <strong>⚠️ IMPORTANTE:</strong> Priorizar ações com vol implícita ALTA. Rolar puts quando virarem "pózinho". Carrego positivo compensa o risco.
+                </div>
+            </div>
+
+            <h3>8.8 Estratégia 8: Criar Renda (Se Necessário)</h3>
+
+            <div class="exemplo">
+                <div class="exemplo-titulo">Venda de Calls Ibovespa para Sintetizar Dividendos</div>
+                
+                <p><strong>Alerta:</strong> Renda geralmente significa renunciar a crescimento. Use apenas se PRECISA ou está pessimista com bolsa.</p>
+
+                <div class="calculo">
+<strong>Quando usar:</strong><br>
+- Precisa de fluxo de caixa recorrente<br>
+- Está pessimista com mercado<br>
+- Quer limitar ganho na alta<br>
+<br>
+<strong>Implementação:</strong><br>
+<br>
+Delta total em ações: R$ 12.000<br>
+<br>
+VENDE: 100 calls BOVAK125 por R$ 2,50<br>
+Prêmio recebido: <span class="valor-positivo">R$ 25.000</span><br>
+<br>
+Equivale a Delta: -R$ 12.000 (neutraliza exposure)<br>
+<br>
+<strong>Renda mensal estimada:</strong><br>
+Vol implícita alta: R$ 2.000-3.000/mês<br>
+Vol implícita baixa: R$ 800-1.500/mês<br>
+<br>
+<strong>Contrapartida:</strong><br>
+- Limita ganho se bolsa subir forte<br>
+- Renuncia a parte do crescimento<br>
+- Melhor usar quando vol alta
+                </div>
+
+                <div class="destaque">
+                    <strong>💡 ALTERNATIVA:</strong> Em vez de criar renda, considere simplesmente vender parte das ações quando precisar de caixa. Evita limitar crescimento futuro.
+                </div>
+            </div>
+
+            <h3>8.9 Estratégia 9: Consolidar os Riscos</h3>
+
+            <div class="exemplo">
+                <div class="exemplo-titulo">Visão Geral da Exposição e Preparação para Cisnes Negros</div>
+                
+                <p><strong>Princípio:</strong> "Se algo nunca aconteceu no mercado, é porque ainda não chegou a hora." Prepare-se para o inesperado.</p>
+
+                <div class="calculo">
+<strong>Checklist de Consolidação:</strong><br>
+<br>
+<strong>1. Delta Total</strong><br>
+Somar Delta de todas estratégias<br>
+Exposição direcional está adequada?<br>
+<br>
+<strong>2. Gamma Total</strong><br>
+Positivo = seguro para grandes movimentos<br>
+Negativo = perigoso, melhor em lateralização<br>
+<br>
+<strong>3. Theta Total (Carrego)</strong><br>
+Positivo = ganha com tempo<br>
+Negativo = perde com tempo<br>
+Está compatível com expectativa?<br>
+<br>
+<strong>4. Concentração por Ação</strong><br>
+Alguma ação >15% da carteira?<br>
+Diversificar entre estratégias<br>
+<br>
+<strong>5. Cenários de Estresse</strong><br>
+Circuit breaker -10%: quanto perde?<br>
+Circuit breaker +10%: quanto ganha?<br>
+Correlação 1 (tudo junto): preparado?<br>
+<br>
+<strong>Exemplo de Consolidação:</strong><br>
+<br>
+Delta total: +R$ 8.000 (16% exposição)<br>
+Gamma total: +150 (positivo, bom)<br>
+Theta total: +R$ 80/dia (ganha com tempo)<br>
+Vega total: -200 (vendido em vol)<br>
+<br>
+Cenário -10% IBOV: -R$ 2.500 (-5%)<br>
+Cenário +10% IBOV: +R$ 4.200 (+8,4%)<br>
+<br>
+✅ Assimetria favorável confirmada
+                </div>
+
+                <div class="alerta">
+                    <strong>⚠️ AJUSTES:</strong> Se consolidação mostrar risco excessivo, ajustar ANTES de evento negativo. Melhor prevenir que remediar.
+                </div>
+            </div>
+
+            <h3>8.10 Estratégia 10: Apurar o Resultado</h3>
+
+            <div class="exemplo">
+                <div class="exemplo-titulo">Consequência, Não Objetivo Principal</div>
+                
+                <p><strong>Filosofia:</strong> "O jogo é bem jogado independentemente do resultado. Foco em executar cada etapa muito bem."</p>
+
+                <div class="calculo">
+<strong>Princípios:</strong><br>
+<br>
+✅ Resultado é consequência de boa execução<br>
+✅ Não tomar decisões baseadas em resultado<br>
+✅ SEM stop loss (é investimento, não especulação)<br>
+✅ Prejuízos serão revertidos no longo prazo<br>
+✅ Lucros serão devolvidos eventualmente<br>
+<br>
+<strong>Apuração Diária Ideal:</strong><br>
+<br>
+Dia 01/12: Patrimônio R$ 50.000<br>
+Dia 02/12: Patrimônio R$ 50.300 (+0,6%)<br>
+Dia 03/12: Patrimônio R$ 49.800 (-0,4%)<br>
+Dia 04/12: Patrimônio R$ 51.200 (+2,4% acumulado)<br>
+...<br>
+<br>
+<strong>Uso da Apuração:</strong><br>
+- Identificar concentrações<br>
+- Evidenciar carrego excessivo<br>
+- Entender origem dos resultados<br>
+- Detectar erros ANTES que causem dano<br>
+<br>
+<strong>NO LONGO PRAZO (anos):</strong><br>
+Apuração é a melhor parte! 🎉
+                </div>
+
+                <table>
+                    <tr>
+                        <th>Período</th>
+                        <th>Meta</th>
+                        <th>CDI</th>
+                        <th>Vantagem</th>
+                    </tr>
+                    <tr>
+                        <td>1 mês</td>
+                        <td>+2,5%</td>
+                        <td>+1,15%</td>
+                        <td>+1,35pp</td>
+                    </tr>
+                    <tr>
+                        <td>1 ano</td>
+                        <td>+35%</td>
+                        <td>+14,65%</td>
+                        <td>+20,35pp</td>
+                    </tr>
+                    <tr>
+                        <td>3 anos</td>
+                        <td>+145%</td>
+                        <td>+50%</td>
+                        <td>+95pp</td>
+                    </tr>
+                    <tr>
+                        <td>5 anos</td>
+                        <td>+350%</td>
+                        <td>+100%</td>
+                        <td>+250pp</td>
+                    </tr>
+                </table>
+
+                <div class="sucesso">
+                    <strong>✅ MENTALIDADE VENCEDORA:</strong> Enquanto torcida vibra ou sofre com placar, jogador está concentrado no lance do momento. Foco na execução, resultado vem depois.
+                </div>
+            </div>
+
+            <h3>8.11 Resumo das 10 Estratégias</h3>
+
+            <table>
+                <tr>
+                    <th>#</th>
+                    <th>Estratégia</th>
+                    <th>Objetivo</th>
+                    <th>Complexidade</th>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>Alocar Capital</td>
+                    <td>Diversificação total do patrimônio</td>
+                    <td>⭐</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>Selecionar Ações</td>
+                    <td>Empresas boas E baratas</td>
+                    <td>⭐⭐</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>Estratégia de Valor</td>
+                    <td>Base: comprar ações/opções direcionais</td>
+                    <td>⭐⭐</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>Estratégia de Carrego</td>
+                    <td>Proteção + Renda (short BOVA + puts)</td>
+                    <td>⭐⭐⭐</td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>Figuras</td>
+                    <td>Oportunidades raras, alta assimetria</td>
+                    <td>⭐⭐⭐⭐</td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td>Dispersão Alta</td>
+                    <td>Superar Ibovespa (calls ações - calls BOVA)</td>
+                    <td>⭐⭐⭐⭐</td>
+                </tr>
+                <tr>
+                    <td>7</td>
+                    <td>Dispersão Queda</td>
+                    <td>Renda recorrente (vende puts + proteção)</td>
+                    <td>⭐⭐⭐⭐</td>
+                </tr>
+                <tr>
+                    <td>8</td>
+                    <td>Criar Renda</td>
+                    <td>Fluxo caixa (venda calls BOVA)</td>
+                    <td>⭐⭐</td>
+                </tr>
+                <tr>
+                    <td>9</td>
+                    <td>Consolidar Riscos</td>
+                    <td>Visão geral + preparação cisnes negros</td>
+                    <td>⭐⭐⭐</td>
+                </tr>
+                <tr>
+                    <td>10</td>
+                    <td>Apurar Resultado</td>
+                    <td>Consequência + aprendizado</td>
+                    <td>⭐⭐</td>
+                </tr>
+            </table>
+
+            <div class="destaque">
+                <strong>🎯 FILOSOFIA FINAL:</strong><br>
+                "Feito é melhor que perfeito. Executar uma etapa é mais importante do que saber fazer ela com perfeição."<br>
+                <br>
+                <strong>INVESTIMENTO ASSIMÉTRICO =</strong> Quando ganhamos, ganhamos muito; quando perdemos, perdemos pouco.
+            </div>
+        </section>
+
+        <!-- GLOSSÁRIO -->
+        <section id="glossario">
+            <h2>Glossário Completo</h2>
+
+            <div class="glossario-item">
+                <div class="glossario-termo">ATM (At The Money)</div>
+                <p>Opção cujo strike está igual ou muito próximo ao preço atual do ativo objeto. Ex: ação a R$ 50, call strike 50.</p>
+            </div>
+
+            <div class="glossario-item">
+                <div class="glossario-termo">ITM (In The Money)</div>
+                <p>Opção com valor intrínseco. Call: strike abaixo do preço do ativo. Put: strike acima do preço do ativo.</p>
+            </div>
+
+            <div class="glossario-item">
+                <div class="glossario-termo">OTM (Out of The Money)</div>
+                <p>Opção sem valor intrínseco. Call: strike acima do preço. Put: strike abaixo do preço.</p>
+            </div>
+
+            <div class="glossario-item">
+                <div class="glossario-termo">Prêmio</div>
+                <p>Preço pago/recebido pela opção. É sempre cotado por ação, mas contratos são de 100 ações.</p>
+            </div>
+
+            <div class="glossario-item">
+                <div class="glossario-termo">Strike (Preço de Exercício)</div>
+                <p>Preço acordado para compra/venda do ativo caso a opção seja exercida.</p>
+            </div>
+
+            <div class="glossario-item">
+                <div class="glossario-termo">Vencimento</div>
+                <p>Data final do contrato. No Brasil, terceira sexta-feira de cada mês.</p>
+            </div>
+
+            <div class="glossario-item">
+                <div class="glossario-termo">Exercício</div>
+                <p>Ato de utilizar o direito da opção (comprador) ou cumprir a obrigação (vendedor).</p>
+            </div>
+
+            <div class="glossario-item">
+                <div class="glossario-termo">Lançamento (Short)</div>
+                <p>Venda de uma opção. O lançador tem obrigação de cumprir se exercido.</p>
+            </div>
+
+            <div class="glossario-item">
+                <div class="glossario-termo">Titular (Long)</div>
+                <p>Comprador de uma opção. Tem o direito (não obrigação) de exercer.</p>
+            </div>
+
+            <div class="glossario-item">
+                <div class="glossario-termo">Spread</div>
+                <p>Diferença entre preços ou estratégia com múltiplas pernas. Ex: compra uma call e vende outra.</p>
+            </div>
+
+            <div class="glossario-item">
+                <div class="glossario-termo">Delta Hedging</div>
+                <p>Estratégia de neutralizar exposição direcional ajustando posição no ativo objeto.</p>
+            </div>
+
+            <div class="glossario-item">
+                <div class="glossario-termo">Decay (Theta Decay)</div>
+                <p>Perda de valor da opção com o passar do tempo, acelerando próximo ao vencimento.</p>
+            </div>
+
+            <div class="glossario-item">
+                <div class="glossario-termo">Volatilidade Implícita (IV)</div>
+                <p>Expectativa do mercado sobre a variação futura do ativo, embutida no preço da opção.</p>
+            </div>
+
+            <div class="glossario-item">
+                <div class="glossario-termo">Volatilidade Histórica (HV)</div>
+                <p>Variação real do preço do ativo em determinado período passado.</p>
+            </div>
+
+            <div class="glossario-item">
+                <div class="glossario-termo">Break-even</div>
+                <p>Ponto de equilíbrio. Preço em que a operação não dá lucro nem prejuízo.</p>
+            </div>
+
+            <div class="glossario-item">
+                <div class="glossario-termo">Position Sizing</div>
+                <p>Cálculo do tamanho adequado da posição baseado em risco tolerável.</p>
+            </div>
+
+            <div class="glossario-item">
+                <div class="glossario-termo">Drawdown</div>
+                <p>Maior perda acumulada do pico ao vale em determinado período.</p>
+            </div>
+
+            <div class="glossario-item">
+                <div class="glossario-termo">Stop Loss</div>
+                <p>Ordem ou disciplina de encerrar posição perdedora em nível predeterminado.</p>
+            </div>
+
+            <div class="glossario-item">
+                <div class="glossario-termo">Covered Call</div>
+                <p>Venda de call contra ações que você possui. Gera renda, limita ganho na alta.</p>
+            </div>
+
+            <div class="glossario-item">
+                <div class="glossario-termo">Iron Condor</div>
+                <p>Venda de call spread + put spread, apostando em lateralização do ativo.</p>
+            </div>
+
+            <div class="glossario-item">
+                <div class="glossario-termo">Butterfly</div>
+                <p>Estratégia com 3 strikes equidistantes, apostando em movimento específico.</p>
+            </div>
+
+            <div class="glossario-item">
+                <div class="glossario-termo">Straddle</div>
+                <p>Compra de call e put no mesmo strike, apostando em movimento forte (qualquer direção).</p>
+            </div>
+
+            <div class="glossario-item">
+                <div class="glossario-termo">Strangle</div>
+                <p>Compra de call OTM e put OTM, versão mais barata do straddle.</p>
+            </div>
+
+            <div class="glossario-item">
+                <div class="glossario-termo">Margem de Garantia</div>
+                <p>Valor bloqueado pela corretora para vendedor de opções, assegurando cumprimento.</p>
+            </div>
+
+            <div class="glossario-item">
+                <div class="glossario-termo">Rollover</div>
+                <p>Fechar posição em vencimento próximo e reabrir em vencimento mais distante.</p>
+            </div>
+
+            <div class="glossario-item">
+                <div class="glossario-termo">Virar Pó</div>
+                <p>Quando opção expira sem valor e investidor perde 100% do prêmio pago. Ocorre quando call OTM não atinge strike ou put OTM fica acima do strike no vencimento.</p>
+            </div>
+
+            <div class="glossario-item">
+                <div class="glossario-termo">Rolagem</div>
+                <p>Encerrar posição em opções próximas ao vencimento e abrir nova posição para vencimento seguinte. Usado para gerar renda recorrente mensal.</p>
+            </div>
+
+            <div class="glossario-item">
+                <div class="glossario-termo">ZCC (Zero Cost Call)</div>
+                <p>Operação em que o prêmio recebido na venda de opções paga exatamente o custo das opções compradas. Exemplo: Booster.</p>
+            </div>
+
+            <div class="glossario-item">
+                <div class="glossario-termo">Operação Vendida em Vol</div>
+                <p>Estratégia que lucra com redução da volatilidade implícita. Exemplos: Iron Condor, Borboleta.</p>
+            </div>
+
+            <div class="glossario-item">
+                <div class="glossario-termo">Margem de Garantia</div>
+                <p>Recurso que lançador deposita na corretora para cobrir possíveis prejuízos em operação alavancada. Titular está isento.</p>
+            </div>
+        </section>
+
+        <footer>
+            <p><strong>Manual Profissional do Mercado de Opções</strong></p>
+            <p>Desenvolvido para fins educacionais | Operações com capital exemplo de R$ 50.000</p>
+            <p style="margin-top: 10px;"><strong>Conteúdo baseado em:</strong></p>
+            <ul style="list-style: none; padding: 0; margin-top: 5px;">
+                <li>📚 OpLab - Plataforma de análise de opções</li>
+                <li>📚 TradeMap EDUCA - Estratégias práticas</li>
+                <li>📚 Caio Mathias - Fórmula do Investimento Assimétrico</li>
+            </ul>
+            <p style="margin-top: 15px; font-size: 0.9em;">
+                ⚠️ <strong>DISCLAIMER:</strong> Este material é educacional. Operações com derivativos envolvem riscos significativos. 
+                Consulte profissionais certificados antes de investir. Rentabilidades passadas não garantem resultados futuros.
+            </p>
+            <p style="margin-top: 10px; color: #999;">© 2025 - Todos os cálculos baseados em SELIC 14,90% a.a.</p>
+        </footer>
+    </div>
+
+    <a href="#" class="back-to-top" title="Voltar ao topo">↑</a>
+
+    <script>
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if(target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Back to top button
+        const backToTop = document.querySelector('.back-to-top');
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                backToTop.style.display = 'flex';
+            } else {
+                backToTop.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
